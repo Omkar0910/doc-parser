@@ -1,0 +1,507 @@
+{
+  "suggestions": [
+    {
+      "id": "suggestion_1759424174916_0",
+      "text": "Q4 2024 Financial Report",
+      "type": "keyword",
+      "category": "financial",
+      "popularity": 0,
+      "timestamp": 1759424174916
+    },
+    {
+      "id": "suggestion_1759424174916_1",
+      "text": "What is TechStartup Inc.'s revenue growth for Q4 2024?",
+      "type": "question",
+      "category": "financial",
+      "popularity": 0,
+      "timestamp": 1759424174916
+    },
+    {
+      "id": "suggestion_1759424174916_2",
+      "text": "Monthly Recurring Revenue",
+      "type": "keyword",
+      "category": "financial",
+      "popularity": 0,
+      "timestamp": 1759424174916
+    },
+    {
+      "id": "suggestion_1759424174916_3",
+      "text": "What are the key metrics for TechStartup Inc. in Q4 2024?",
+      "type": "question",
+      "category": "financial",
+      "popularity": 0,
+      "timestamp": 1759424174916
+    },
+    {
+      "id": "suggestion_1759424174916_4",
+      "text": "Jennifer Martinez, Chief Financial Officer",
+      "type": "keyword",
+      "category": "contact",
+      "popularity": 0,
+      "timestamp": 1759424174916
+    },
+    {
+      "id": "suggestion_1759424174916_5",
+      "text": "Investment Update from TechStartup Inc.",
+      "type": "phrase",
+      "category": "business",
+      "popularity": 0,
+      "timestamp": 1759424174916
+    },
+    {
+      "id": "suggestion_1759424174916_6",
+      "text": "Customer Acquisition Cost",
+      "type": "keyword",
+      "category": "financial",
+      "popularity": 0,
+      "timestamp": 1759424174916
+    },
+    {
+      "id": "suggestion_1759424174916_7",
+      "text": "What is the cash position of TechStartup Inc.?",
+      "type": "question",
+      "category": "financial",
+      "popularity": 0,
+      "timestamp": 1759424174916
+    },
+    {
+      "id": "suggestion_1759424174916_8",
+      "text": "Funding and International Expansion",
+      "type": "phrase",
+      "category": "business",
+      "popularity": 0,
+      "timestamp": 1759424174916
+    },
+    {
+      "id": "suggestion_1759424174916_9",
+      "text": "Gross Margin and Operating Expenses",
+      "type": "phrase",
+      "category": "financial",
+      "popularity": 0,
+      "timestamp": 1759424174916
+    },
+    {
+      "id": "suggestion_1759424174916_10",
+      "text": "What are the upcoming milestones for TechStartup Inc.?",
+      "type": "question",
+      "category": "business",
+      "popularity": 0,
+      "timestamp": 1759424174916
+    },
+    {
+      "id": "suggestion_1759424174916_11",
+      "text": "Churn Rate and Customer Lifetime Value",
+      "type": "phrase",
+      "category": "financial",
+      "popularity": 0,
+      "timestamp": 1759424174916
+    }
+  ],
+  "lastGenerated": 1759424174916,
+  "cache": [
+    [
+      "fib",
+      [
+        {
+          "id": "suggestion_1759424154614_0",
+          "text": "Q4 2024 Financial Report",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424154614
+        },
+        {
+          "id": "suggestion_1759424154614_1",
+          "text": "What is the revenue growth for Q4 2024?",
+          "type": "question",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424154614
+        },
+        {
+          "id": "suggestion_1759424154614_2",
+          "text": "Customer Acquisition Cost",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424154614
+        },
+        {
+          "id": "suggestion_1759424154614_3",
+          "text": "What are the key metrics for TechStartup Inc. in Q4 2024?",
+          "type": "question",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424154614
+        },
+        {
+          "id": "suggestion_1759424154614_4",
+          "text": "Jennifer Martinez, Chief Financial Officer",
+          "type": "keyword",
+          "category": "contact",
+          "popularity": 0,
+          "timestamp": 1759424154614
+        },
+        {
+          "id": "suggestion_1759424154614_5",
+          "text": "TechStartup Inc. strategic direction",
+          "type": "phrase",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424154614
+        },
+        {
+          "id": "suggestion_1759424154614_6",
+          "text": "Monthly Recurring Revenue target",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424154614
+        },
+        {
+          "id": "suggestion_1759424154614_7",
+          "text": "How is TechStartup Inc. planning for international expansion?",
+          "type": "question",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424154614
+        },
+        {
+          "id": "suggestion_1759424154614_8",
+          "text": "Investment Update",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424154614
+        },
+        {
+          "id": "suggestion_1759424154614_9",
+          "text": "What are the upcoming milestones for TechStartup Inc.?",
+          "type": "question",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424154614
+        },
+        {
+          "id": "suggestion_1759424154614_10",
+          "text": "Partnership with Microsoft Azure",
+          "type": "phrase",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424154614
+        },
+        {
+          "id": "suggestion_1759424154614_11",
+          "text": "Net Profit for Q4 2024",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424154614
+        }
+      ]
+    ],
+    [
+      "fi",
+      [
+        {
+          "id": "suggestion_1759424156815_0",
+          "text": "Q4 2024 Financial Report",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424156815
+        },
+        {
+          "id": "suggestion_1759424156815_1",
+          "text": "What is the revenue growth for Q4 2024?",
+          "type": "question",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424156815
+        },
+        {
+          "id": "suggestion_1759424156815_2",
+          "text": "Investment Update",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424156815
+        },
+        {
+          "id": "suggestion_1759424156815_3",
+          "text": "What are the key metrics for TechStartup Inc. in Q4 2024?",
+          "type": "question",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424156815
+        },
+        {
+          "id": "suggestion_1759424156815_4",
+          "text": "Jennifer Martinez, Chief Financial Officer",
+          "type": "keyword",
+          "category": "contact",
+          "popularity": 0,
+          "timestamp": 1759424156815
+        },
+        {
+          "id": "suggestion_1759424156815_5",
+          "text": "Monthly Recurring Revenue",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424156815
+        },
+        {
+          "id": "suggestion_1759424156815_6",
+          "text": "TechStartup Inc. strategic direction",
+          "type": "phrase",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424156815
+        },
+        {
+          "id": "suggestion_1759424156815_7",
+          "text": "What is the cash position of TechStartup Inc.?",
+          "type": "question",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424156815
+        },
+        {
+          "id": "suggestion_1759424156815_8",
+          "text": "Customer Acquisition Cost",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424156815
+        },
+        {
+          "id": "suggestion_1759424156815_9",
+          "text": "Upcoming milestones for TechStartup Inc.",
+          "type": "phrase",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424156815
+        },
+        {
+          "id": "suggestion_1759424156815_10",
+          "text": "Funding and international expansion",
+          "type": "phrase",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424156815
+        },
+        {
+          "id": "suggestion_1759424156815_11",
+          "text": "What is the net profit for Q4 2024?",
+          "type": "question",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424156815
+        }
+      ]
+    ],
+    [
+      "fin",
+      [
+        {
+          "id": "suggestion_1759424161290_0",
+          "text": "Q4 2024 Financial Report",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424161290
+        },
+        {
+          "id": "suggestion_1759424161290_1",
+          "text": "What is TechStartup Inc.'s revenue growth for Q4 2024?",
+          "type": "question",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424161290
+        },
+        {
+          "id": "suggestion_1759424161290_2",
+          "text": "Monthly Recurring Revenue target",
+          "type": "phrase",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424161290
+        },
+        {
+          "id": "suggestion_1759424161290_3",
+          "text": "Jennifer Martinez, Chief Financial Officer",
+          "type": "keyword",
+          "category": "contact",
+          "popularity": 0,
+          "timestamp": 1759424161290
+        },
+        {
+          "id": "suggestion_1759424161290_4",
+          "text": "What are the key metrics in TechStartup Inc.'s financial performance?",
+          "type": "question",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424161290
+        },
+        {
+          "id": "suggestion_1759424161290_5",
+          "text": "Investment Update from TechStartup Inc.",
+          "type": "phrase",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424161290
+        },
+        {
+          "id": "suggestion_1759424161290_6",
+          "text": "Customer Acquisition Cost",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424161290
+        },
+        {
+          "id": "suggestion_1759424161290_7",
+          "text": "What are the upcoming milestones for TechStartup Inc.?",
+          "type": "question",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424161290
+        },
+        {
+          "id": "suggestion_1759424161290_8",
+          "text": "Gross Margin analysis",
+          "type": "phrase",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424161290
+        },
+        {
+          "id": "suggestion_1759424161290_9",
+          "text": "Funding and International expansion plans",
+          "type": "phrase",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424161290
+        },
+        {
+          "id": "suggestion_1759424161290_10",
+          "text": "What is the cash position of TechStartup Inc.?",
+          "type": "question",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424161290
+        },
+        {
+          "id": "suggestion_1759424161290_11",
+          "text": "Churn Rate and Customer Lifetime Value",
+          "type": "phrase",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424161290
+        }
+      ]
+    ],
+    [
+      "financial",
+      [
+        {
+          "id": "suggestion_1759424174916_0",
+          "text": "Q4 2024 Financial Report",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424174916
+        },
+        {
+          "id": "suggestion_1759424174916_1",
+          "text": "What is TechStartup Inc.'s revenue growth for Q4 2024?",
+          "type": "question",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424174916
+        },
+        {
+          "id": "suggestion_1759424174916_2",
+          "text": "Monthly Recurring Revenue",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424174916
+        },
+        {
+          "id": "suggestion_1759424174916_3",
+          "text": "What are the key metrics for TechStartup Inc. in Q4 2024?",
+          "type": "question",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424174916
+        },
+        {
+          "id": "suggestion_1759424174916_4",
+          "text": "Jennifer Martinez, Chief Financial Officer",
+          "type": "keyword",
+          "category": "contact",
+          "popularity": 0,
+          "timestamp": 1759424174916
+        },
+        {
+          "id": "suggestion_1759424174916_5",
+          "text": "Investment Update from TechStartup Inc.",
+          "type": "phrase",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424174916
+        },
+        {
+          "id": "suggestion_1759424174916_6",
+          "text": "Customer Acquisition Cost",
+          "type": "keyword",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424174916
+        },
+        {
+          "id": "suggestion_1759424174916_7",
+          "text": "What is the cash position of TechStartup Inc.?",
+          "type": "question",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424174916
+        },
+        {
+          "id": "suggestion_1759424174916_8",
+          "text": "Funding and International Expansion",
+          "type": "phrase",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424174916
+        },
+        {
+          "id": "suggestion_1759424174916_9",
+          "text": "Gross Margin and Operating Expenses",
+          "type": "phrase",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424174916
+        },
+        {
+          "id": "suggestion_1759424174916_10",
+          "text": "What are the upcoming milestones for TechStartup Inc.?",
+          "type": "question",
+          "category": "business",
+          "popularity": 0,
+          "timestamp": 1759424174916
+        },
+        {
+          "id": "suggestion_1759424174916_11",
+          "text": "Churn Rate and Customer Lifetime Value",
+          "type": "phrase",
+          "category": "financial",
+          "popularity": 0,
+          "timestamp": 1759424174916
+        }
+      ]
+    ]
+  ]
+}

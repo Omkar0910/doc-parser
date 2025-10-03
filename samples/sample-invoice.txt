@@ -1,0 +1,51 @@
+INVOICE
+
+Invoice Number: INV-2024-001
+Date: 2024-01-15
+Due Date: 2024-02-14
+
+Bill To:
+Acme Corporation
+123 Business Street
+New York, NY 10001
+United States
+
+Contact: John Smith
+Email: john.smith@acmecorp.com
+Phone: (555) 123-4567
+
+From:
+Tech Solutions Inc.
+456 Innovation Drive
+San Francisco, CA 94105
+United States
+
+Contact: Sarah Johnson
+Email: sarah.johnson@techsolutions.com
+Phone: (555) 987-6543
+
+Description of Services:
+- Web Development Services - 40 hours @ $150/hour
+- Database Design - 20 hours @ $125/hour
+- Project Management - 10 hours @ $100/hour
+
+Subtotal: $9,000.00
+Tax (8.5%): $765.00
+Total Amount Due: $9,765.00
+
+Payment Terms: Net 30 days
+Payment Method: Bank Transfer
+
+Bank Details:
+Account Name: Tech Solutions Inc.
+Account Number: 1234567890
+Routing Number: 021000021
+Bank: First National Bank
+
+This invoice is due within 30 days of the invoice date. Late payments may incur a 1.5% monthly service charge.
+
+Thank you for your business!
+
+Authorized Signature: Sarah Johnson
+Title: Project Manager
+Date: 2024-01-15

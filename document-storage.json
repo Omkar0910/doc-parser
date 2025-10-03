@@ -1,0 +1,758 @@
+[
+  {
+    "id": "sample-email-2.eml_chunk_0",
+    "text": "Subject: Q4 2024 Financial Report and Investment Update\nFrom: marketing@techstartup.com\nTo: investors@venturecapital.com\nDate: Tue Jan 16 2024 00:00:00 GMT+0530 (India Standard Time)",
+    "metadata": {
+      "filename": "sample-email-2.eml",
+      "documentType": "email",
+      "date": "2024-01-16",
+      "identifiers": [],
+      "people": [
+        "Jennifer Martinez, Chief Financial Officer"
+      ],
+      "organizations": [
+        "TechStartup Inc.",
+        "Microsoft Azure"
+      ],
+      "locations": [
+        "India"
+      ],
+      "contacts": [
+        "marketing@techstartup.com",
+        "investors@venturecapital.com",
+        "(555) 234-5678",
+        "jennifer.martinez@techstartup.com"
+      ],
+      "financials": {
+        "amounts": [
+          2500000,
+          1800000,
+          425000,
+          3200000,
+          150,
+          2400,
+          850000,
+          3.2,
+          15000000
+        ],
+        "currency": "USD"
+      },
+      "keywords": [
+        "Q4 2024 Financial Report",
+        "Investment Update",
+        "Revenue",
+        "Gross Margin",
+        "Operating Expenses",
+        "Net Profit",
+        "Cash Position",
+        "Customer Acquisition Cost",
+        "Customer Lifetime Value",
+        "Monthly Recurring Revenue",
+        "Churn Rate",
+        "Product Launch",
+        "Team Expansion",
+        "Partnership",
+        "Funding",
+        "International expansion",
+        "Mobile application",
+        "Monthly recurring revenue target"
+      ],
+      "summary": "This email provides an update on TechStartup Inc.'s Q4 2024 financial performance and business developments, including revenue growth, key metrics, and upcoming milestones. The CFO expresses gratitude for investor support and outlines the company's strategic direction.",
+      "chunkIndex": 0,
+      "totalChunks": 12
+    }
+  },
+  {
+    "id": "sample-email-2.eml_chunk_1",
+    "text": "Dear Investment Partners,",
+    "metadata": {
+      "filename": "sample-email-2.eml",
+      "documentType": "email",
+      "date": "2024-01-16",
+      "identifiers": [],
+      "people": [
+        "Jennifer Martinez, Chief Financial Officer"
+      ],
+      "organizations": [
+        "TechStartup Inc.",
+        "Microsoft Azure"
+      ],
+      "locations": [
+        "India"
+      ],
+      "contacts": [
+        "marketing@techstartup.com",
+        "investors@venturecapital.com",
+        "(555) 234-5678",
+        "jennifer.martinez@techstartup.com"
+      ],
+      "financials": {
+        "amounts": [
+          2500000,
+          1800000,
+          425000,
+          3200000,
+          150,
+          2400,
+          850000,
+          3.2,
+          15000000
+        ],
+        "currency": "USD"
+      },
+      "keywords": [
+        "Q4 2024 Financial Report",
+        "Investment Update",
+        "Revenue",
+        "Gross Margin",
+        "Operating Expenses",
+        "Net Profit",
+        "Cash Position",
+        "Customer Acquisition Cost",
+        "Customer Lifetime Value",
+        "Monthly Recurring Revenue",
+        "Churn Rate",
+        "Product Launch",
+        "Team Expansion",
+        "Partnership",
+        "Funding",
+        "International expansion",
+        "Mobile application",
+        "Monthly recurring revenue target"
+      ],
+      "summary": "This email provides an update on TechStartup Inc.'s Q4 2024 financial performance and business developments, including revenue growth, key metrics, and upcoming milestones. The CFO expresses gratitude for investor support and outlines the company's strategic direction.",
+      "chunkIndex": 1,
+      "totalChunks": 12
+    }
+  },
+  {
+    "id": "sample-email-2.eml_chunk_2",
+    "text": "I hope this email finds you well. I'm writing to provide you with our Q4 2024 financial report and update you on our recent progress.",
+    "metadata": {
+      "filename": "sample-email-2.eml",
+      "documentType": "email",
+      "date": "2024-01-16",
+      "identifiers": [],
+      "people": [
+        "Jennifer Martinez, Chief Financial Officer"
+      ],
+      "organizations": [
+        "TechStartup Inc.",
+        "Microsoft Azure"
+      ],
+      "locations": [
+        "India"
+      ],
+      "contacts": [
+        "marketing@techstartup.com",
+        "investors@venturecapital.com",
+        "(555) 234-5678",
+        "jennifer.martinez@techstartup.com"
+      ],
+      "financials": {
+        "amounts": [
+          2500000,
+          1800000,
+          425000,
+          3200000,
+          150,
+          2400,
+          850000,
+          3.2,
+          15000000
+        ],
+        "currency": "USD"
+      },
+      "keywords": [
+        "Q4 2024 Financial Report",
+        "Investment Update",
+        "Revenue",
+        "Gross Margin",
+        "Operating Expenses",
+        "Net Profit",
+        "Cash Position",
+        "Customer Acquisition Cost",
+        "Customer Lifetime Value",
+        "Monthly Recurring Revenue",
+        "Churn Rate",
+        "Product Launch",
+        "Team Expansion",
+        "Partnership",
+        "Funding",
+        "International expansion",
+        "Mobile application",
+        "Monthly recurring revenue target"
+      ],
+      "summary": "This email provides an update on TechStartup Inc.'s Q4 2024 financial performance and business developments, including revenue growth, key metrics, and upcoming milestones. The CFO expresses gratitude for investor support and outlines the company's strategic direction.",
+      "chunkIndex": 2,
+      "totalChunks": 12
+    }
+  },
+  {
+    "id": "sample-email-2.eml_chunk_3",
+    "text": "FINANCIAL HIGHLIGHTS:\n- Revenue: $2.5M (up 40% from Q3)\n- Gross Margin: 65%\n- Operating Expenses: $1.8M\n- Net Profit: $425,000\n- Cash Position: $3.2M",
+    "metadata": {
+      "filename": "sample-email-2.eml",
+      "documentType": "email",
+      "date": "2024-01-16",
+      "identifiers": [],
+      "people": [
+        "Jennifer Martinez, Chief Financial Officer"
+      ],
+      "organizations": [
+        "TechStartup Inc.",
+        "Microsoft Azure"
+      ],
+      "locations": [
+        "India"
+      ],
+      "contacts": [
+        "marketing@techstartup.com",
+        "investors@venturecapital.com",
+        "(555) 234-5678",
+        "jennifer.martinez@techstartup.com"
+      ],
+      "financials": {
+        "amounts": [
+          2500000,
+          1800000,
+          425000,
+          3200000,
+          150,
+          2400,
+          850000,
+          3.2,
+          15000000
+        ],
+        "currency": "USD"
+      },
+      "keywords": [
+        "Q4 2024 Financial Report",
+        "Investment Update",
+        "Revenue",
+        "Gross Margin",
+        "Operating Expenses",
+        "Net Profit",
+        "Cash Position",
+        "Customer Acquisition Cost",
+        "Customer Lifetime Value",
+        "Monthly Recurring Revenue",
+        "Churn Rate",
+        "Product Launch",
+        "Team Expansion",
+        "Partnership",
+        "Funding",
+        "International expansion",
+        "Mobile application",
+        "Monthly recurring revenue target"
+      ],
+      "summary": "This email provides an update on TechStartup Inc.'s Q4 2024 financial performance and business developments, including revenue growth, key metrics, and upcoming milestones. The CFO expresses gratitude for investor support and outlines the company's strategic direction.",
+      "chunkIndex": 3,
+      "totalChunks": 12
+    }
+  },
+  {
+    "id": "sample-email-2.eml_chunk_4",
+    "text": "KEY METRICS:\n- Customer Acquisition Cost (CAC): $150\n- Customer Lifetime Value (LTV): $2,400\n- Monthly Recurring Revenue (MRR): $850,000\n- Churn Rate: 3.2%",
+    "metadata": {
+      "filename": "sample-email-2.eml",
+      "documentType": "email",
+      "date": "2024-01-16",
+      "identifiers": [],
+      "people": [
+        "Jennifer Martinez, Chief Financial Officer"
+      ],
+      "organizations": [
+        "TechStartup Inc.",
+        "Microsoft Azure"
+      ],
+      "locations": [
+        "India"
+      ],
+      "contacts": [
+        "marketing@techstartup.com",
+        "investors@venturecapital.com",
+        "(555) 234-5678",
+        "jennifer.martinez@techstartup.com"
+      ],
+      "financials": {
+        "amounts": [
+          2500000,
+          1800000,
+          425000,
+          3200000,
+          150,
+          2400,
+          850000,
+          3.2,
+          15000000
+        ],
+        "currency": "USD"
+      },
+      "keywords": [
+        "Q4 2024 Financial Report",
+        "Investment Update",
+        "Revenue",
+        "Gross Margin",
+        "Operating Expenses",
+        "Net Profit",
+        "Cash Position",
+        "Customer Acquisition Cost",
+        "Customer Lifetime Value",
+        "Monthly Recurring Revenue",
+        "Churn Rate",
+        "Product Launch",
+        "Team Expansion",
+        "Partnership",
+        "Funding",
+        "International expansion",
+        "Mobile application",
+        "Monthly recurring revenue target"
+      ],
+      "summary": "This email provides an update on TechStartup Inc.'s Q4 2024 financial performance and business developments, including revenue growth, key metrics, and upcoming milestones. The CFO expresses gratitude for investor support and outlines the company's strategic direction.",
+      "chunkIndex": 4,
+      "totalChunks": 12
+    }
+  },
+  {
+    "id": "sample-email-2.eml_chunk_5",
+    "text": "BUSINESS UPDATES:\n1. Product Launch: Successfully launched our AI-powered analytics platform\n2. Team Expansion: Hired 15 new employees across engineering and sales\n3. Partnership: Signed strategic partnership with Microsoft Azure\n4. Funding: Completed Series B round raising $15M",
+    "metadata": {
+      "filename": "sample-email-2.eml",
+      "documentType": "email",
+      "date": "2024-01-16",
+      "identifiers": [],
+      "people": [
+        "Jennifer Martinez, Chief Financial Officer"
+      ],
+      "organizations": [
+        "TechStartup Inc.",
+        "Microsoft Azure"
+      ],
+      "locations": [
+        "India"
+      ],
+      "contacts": [
+        "marketing@techstartup.com",
+        "investors@venturecapital.com",
+        "(555) 234-5678",
+        "jennifer.martinez@techstartup.com"
+      ],
+      "financials": {
+        "amounts": [
+          2500000,
+          1800000,
+          425000,
+          3200000,
+          150,
+          2400,
+          850000,
+          3.2,
+          15000000
+        ],
+        "currency": "USD"
+      },
+      "keywords": [
+        "Q4 2024 Financial Report",
+        "Investment Update",
+        "Revenue",
+        "Gross Margin",
+        "Operating Expenses",
+        "Net Profit",
+        "Cash Position",
+        "Customer Acquisition Cost",
+        "Customer Lifetime Value",
+        "Monthly Recurring Revenue",
+        "Churn Rate",
+        "Product Launch",
+        "Team Expansion",
+        "Partnership",
+        "Funding",
+        "International expansion",
+        "Mobile application",
+        "Monthly recurring revenue target"
+      ],
+      "summary": "This email provides an update on TechStartup Inc.'s Q4 2024 financial performance and business developments, including revenue growth, key metrics, and upcoming milestones. The CFO expresses gratitude for investor support and outlines the company's strategic direction.",
+      "chunkIndex": 5,
+      "totalChunks": 12
+    }
+  },
+  {
+    "id": "sample-email-2.eml_chunk_6",
+    "text": "UPCOMING MILESTONES:\n- Q1 2025: International expansion to European markets\n- Q2 2025: Launch of mobile application\n- Q3 2025: Target $5M monthly recurring revenue",
+    "metadata": {
+      "filename": "sample-email-2.eml",
+      "documentType": "email",
+      "date": "2024-01-16",
+      "identifiers": [],
+      "people": [
+        "Jennifer Martinez, Chief Financial Officer"
+      ],
+      "organizations": [
+        "TechStartup Inc.",
+        "Microsoft Azure"
+      ],
+      "locations": [
+        "India"
+      ],
+      "contacts": [
+        "marketing@techstartup.com",
+        "investors@venturecapital.com",
+        "(555) 234-5678",
+        "jennifer.martinez@techstartup.com"
+      ],
+      "financials": {
+        "amounts": [
+          2500000,
+          1800000,
+          425000,
+          3200000,
+          150,
+          2400,
+          850000,
+          3.2,
+          15000000
+        ],
+        "currency": "USD"
+      },
+      "keywords": [
+        "Q4 2024 Financial Report",
+        "Investment Update",
+        "Revenue",
+        "Gross Margin",
+        "Operating Expenses",
+        "Net Profit",
+        "Cash Position",
+        "Customer Acquisition Cost",
+        "Customer Lifetime Value",
+        "Monthly Recurring Revenue",
+        "Churn Rate",
+        "Product Launch",
+        "Team Expansion",
+        "Partnership",
+        "Funding",
+        "International expansion",
+        "Mobile application",
+        "Monthly recurring revenue target"
+      ],
+      "summary": "This email provides an update on TechStartup Inc.'s Q4 2024 financial performance and business developments, including revenue growth, key metrics, and upcoming milestones. The CFO expresses gratitude for investor support and outlines the company's strategic direction.",
+      "chunkIndex": 6,
+      "totalChunks": 12
+    }
+  },
+  {
+    "id": "sample-email-2.eml_chunk_7",
+    "text": "The team is excited about our trajectory and grateful for your continued support. We're confident that our innovative approach to data analytics will continue to drive strong growth in 2025.",
+    "metadata": {
+      "filename": "sample-email-2.eml",
+      "documentType": "email",
+      "date": "2024-01-16",
+      "identifiers": [],
+      "people": [
+        "Jennifer Martinez, Chief Financial Officer"
+      ],
+      "organizations": [
+        "TechStartup Inc.",
+        "Microsoft Azure"
+      ],
+      "locations": [
+        "India"
+      ],
+      "contacts": [
+        "marketing@techstartup.com",
+        "investors@venturecapital.com",
+        "(555) 234-5678",
+        "jennifer.martinez@techstartup.com"
+      ],
+      "financials": {
+        "amounts": [
+          2500000,
+          1800000,
+          425000,
+          3200000,
+          150,
+          2400,
+          850000,
+          3.2,
+          15000000
+        ],
+        "currency": "USD"
+      },
+      "keywords": [
+        "Q4 2024 Financial Report",
+        "Investment Update",
+        "Revenue",
+        "Gross Margin",
+        "Operating Expenses",
+        "Net Profit",
+        "Cash Position",
+        "Customer Acquisition Cost",
+        "Customer Lifetime Value",
+        "Monthly Recurring Revenue",
+        "Churn Rate",
+        "Product Launch",
+        "Team Expansion",
+        "Partnership",
+        "Funding",
+        "International expansion",
+        "Mobile application",
+        "Monthly recurring revenue target"
+      ],
+      "summary": "This email provides an update on TechStartup Inc.'s Q4 2024 financial performance and business developments, including revenue growth, key metrics, and upcoming milestones. The CFO expresses gratitude for investor support and outlines the company's strategic direction.",
+      "chunkIndex": 7,
+      "totalChunks": 12
+    }
+  },
+  {
+    "id": "sample-email-2.eml_chunk_8",
+    "text": "Please don't hesitate to reach out if you have any questions or would like to schedule a call to discuss these results in more detail.",
+    "metadata": {
+      "filename": "sample-email-2.eml",
+      "documentType": "email",
+      "date": "2024-01-16",
+      "identifiers": [],
+      "people": [
+        "Jennifer Martinez, Chief Financial Officer"
+      ],
+      "organizations": [
+        "TechStartup Inc.",
+        "Microsoft Azure"
+      ],
+      "locations": [
+        "India"
+      ],
+      "contacts": [
+        "marketing@techstartup.com",
+        "investors@venturecapital.com",
+        "(555) 234-5678",
+        "jennifer.martinez@techstartup.com"
+      ],
+      "financials": {
+        "amounts": [
+          2500000,
+          1800000,
+          425000,
+          3200000,
+          150,
+          2400,
+          850000,
+          3.2,
+          15000000
+        ],
+        "currency": "USD"
+      },
+      "keywords": [
+        "Q4 2024 Financial Report",
+        "Investment Update",
+        "Revenue",
+        "Gross Margin",
+        "Operating Expenses",
+        "Net Profit",
+        "Cash Position",
+        "Customer Acquisition Cost",
+        "Customer Lifetime Value",
+        "Monthly Recurring Revenue",
+        "Churn Rate",
+        "Product Launch",
+        "Team Expansion",
+        "Partnership",
+        "Funding",
+        "International expansion",
+        "Mobile application",
+        "Monthly recurring revenue target"
+      ],
+      "summary": "This email provides an update on TechStartup Inc.'s Q4 2024 financial performance and business developments, including revenue growth, key metrics, and upcoming milestones. The CFO expresses gratitude for investor support and outlines the company's strategic direction.",
+      "chunkIndex": 8,
+      "totalChunks": 12
+    }
+  },
+  {
+    "id": "sample-email-2.eml_chunk_9",
+    "text": "Best regards,",
+    "metadata": {
+      "filename": "sample-email-2.eml",
+      "documentType": "email",
+      "date": "2024-01-16",
+      "identifiers": [],
+      "people": [
+        "Jennifer Martinez, Chief Financial Officer"
+      ],
+      "organizations": [
+        "TechStartup Inc.",
+        "Microsoft Azure"
+      ],
+      "locations": [
+        "India"
+      ],
+      "contacts": [
+        "marketing@techstartup.com",
+        "investors@venturecapital.com",
+        "(555) 234-5678",
+        "jennifer.martinez@techstartup.com"
+      ],
+      "financials": {
+        "amounts": [
+          2500000,
+          1800000,
+          425000,
+          3200000,
+          150,
+          2400,
+          850000,
+          3.2,
+          15000000
+        ],
+        "currency": "USD"
+      },
+      "keywords": [
+        "Q4 2024 Financial Report",
+        "Investment Update",
+        "Revenue",
+        "Gross Margin",
+        "Operating Expenses",
+        "Net Profit",
+        "Cash Position",
+        "Customer Acquisition Cost",
+        "Customer Lifetime Value",
+        "Monthly Recurring Revenue",
+        "Churn Rate",
+        "Product Launch",
+        "Team Expansion",
+        "Partnership",
+        "Funding",
+        "International expansion",
+        "Mobile application",
+        "Monthly recurring revenue target"
+      ],
+      "summary": "This email provides an update on TechStartup Inc.'s Q4 2024 financial performance and business developments, including revenue growth, key metrics, and upcoming milestones. The CFO expresses gratitude for investor support and outlines the company's strategic direction.",
+      "chunkIndex": 9,
+      "totalChunks": 12
+    }
+  },
+  {
+    "id": "sample-email-2.eml_chunk_10",
+    "text": "Jennifer Martinez\nChief Financial Officer\nTechStartup Inc.\nPhone: (555) 234-5678\nEmail: jennifer.martinez@techstartup.com",
+    "metadata": {
+      "filename": "sample-email-2.eml",
+      "documentType": "email",
+      "date": "2024-01-16",
+      "identifiers": [],
+      "people": [
+        "Jennifer Martinez, Chief Financial Officer"
+      ],
+      "organizations": [
+        "TechStartup Inc.",
+        "Microsoft Azure"
+      ],
+      "locations": [
+        "India"
+      ],
+      "contacts": [
+        "marketing@techstartup.com",
+        "investors@venturecapital.com",
+        "(555) 234-5678",
+        "jennifer.martinez@techstartup.com"
+      ],
+      "financials": {
+        "amounts": [
+          2500000,
+          1800000,
+          425000,
+          3200000,
+          150,
+          2400,
+          850000,
+          3.2,
+          15000000
+        ],
+        "currency": "USD"
+      },
+      "keywords": [
+        "Q4 2024 Financial Report",
+        "Investment Update",
+        "Revenue",
+        "Gross Margin",
+        "Operating Expenses",
+        "Net Profit",
+        "Cash Position",
+        "Customer Acquisition Cost",
+        "Customer Lifetime Value",
+        "Monthly Recurring Revenue",
+        "Churn Rate",
+        "Product Launch",
+        "Team Expansion",
+        "Partnership",
+        "Funding",
+        "International expansion",
+        "Mobile application",
+        "Monthly recurring revenue target"
+      ],
+      "summary": "This email provides an update on TechStartup Inc.'s Q4 2024 financial performance and business developments, including revenue growth, key metrics, and upcoming milestones. The CFO expresses gratitude for investor support and outlines the company's strategic direction.",
+      "chunkIndex": 10,
+      "totalChunks": 12
+    }
+  },
+  {
+    "id": "sample-email-2.eml_chunk_11",
+    "text": "This email contains confidential and proprietary information. If you are not the intended recipient, please delete this email immediately.",
+    "metadata": {
+      "filename": "sample-email-2.eml",
+      "documentType": "email",
+      "date": "2024-01-16",
+      "identifiers": [],
+      "people": [
+        "Jennifer Martinez, Chief Financial Officer"
+      ],
+      "organizations": [
+        "TechStartup Inc.",
+        "Microsoft Azure"
+      ],
+      "locations": [
+        "India"
+      ],
+      "contacts": [
+        "marketing@techstartup.com",
+        "investors@venturecapital.com",
+        "(555) 234-5678",
+        "jennifer.martinez@techstartup.com"
+      ],
+      "financials": {
+        "amounts": [
+          2500000,
+          1800000,
+          425000,
+          3200000,
+          150,
+          2400,
+          850000,
+          3.2,
+          15000000
+        ],
+        "currency": "USD"
+      },
+      "keywords": [
+        "Q4 2024 Financial Report",
+        "Investment Update",
+        "Revenue",
+        "Gross Margin",
+        "Operating Expenses",
+        "Net Profit",
+        "Cash Position",
+        "Customer Acquisition Cost",
+        "Customer Lifetime Value",
+        "Monthly Recurring Revenue",
+        "Churn Rate",
+        "Product Launch",
+        "Team Expansion",
+        "Partnership",
+        "Funding",
+        "International expansion",
+        "Mobile application",
+        "Monthly recurring revenue target"
+      ],
+      "summary": "This email provides an update on TechStartup Inc.'s Q4 2024 financial performance and business developments, including revenue growth, key metrics, and upcoming milestones. The CFO expresses gratitude for investor support and outlines the company's strategic direction.",
+      "chunkIndex": 11,
+      "totalChunks": 12
+    }
+  }
+]
