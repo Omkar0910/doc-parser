@@ -6,6 +6,15 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   trailingSlash: true,
+  // Optimize for Firebase App Hosting
+  output: 'standalone',
+  experimental: {
+    serverComponentsExternalPackages: ['sqlite3'],
+  },
+  // Ensure proper handling of static files
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;

@@ -1,29 +1,14 @@
 {
-  "hosting": {
-    "public": "out",
+  "apphosting": {
+    "backendId": "doc-parser",
+    "rootDir": "/",
     "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      "functions"
     ],
-    "rewrites": [
-      {
-        "source": "/api/**",
-        "function": "nextjsFunc"
-      },
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  },
-  "functions": {
-    "source": ".",
-    "codebase": "default",
-    "predeploy": [
-      "npm i -g npm@latest",
-      "./node_modules/.bin/next build",
-      "npm run export"
-    ]
+    "alwaysDeployFromSource": true
   }
 }

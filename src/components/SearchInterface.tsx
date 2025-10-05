@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Search, Clock, FileText, User, Building, MapPin, DollarSign, TrendingUp, Lightbulb, Trash2, AlertTriangle } from 'lucide-react'
+import { Search, Clock, FileText, User, Building, MapPin, DollarSign, TrendingUp, Lightbulb, Trash2, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react'
 
 interface SearchResult {
   id: string
@@ -18,6 +18,23 @@ interface SearchResult {
     financials?: {
       amounts?: number[]
       currency?: string
+      revenue?: number
+      profit?: number
+      cash?: number
+      mrr?: number
+      cac?: number
+      ltv?: number
+    }
+    contractAmendment?: {
+      identifiers?: string[]
+      effectiveDate?: string
+      milestoneDates?: string[]
+      financialChanges?: {
+        amount?: number
+        currency?: string
+        changeType?: string
+      }
+      scopeChanges?: string[]
     }
     keywords?: string[]
     summary?: string
@@ -47,6 +64,8 @@ export default function SearchInterface({ onSearchComplete }: SearchInterfacePro
   const [stats, setStats] = useState<{totalDocuments: number, totalChunks: number, avgChunkSize: number} | null>(null)
   const [showClearConfirm, setShowClearConfirm] = useState(false)
   const [clearing, setClearing] = useState(false)
+  const [aiAnswer, setAiAnswer] = useState<{answer: string, sources: string[], confidence: number} | null>(null)
+  const [expandedResults, setExpandedResults] = useState<Set<string>>(new Set())
 
   // Load stats on component mount
   useEffect(() => {
@@ -79,6 +98,8 @@ export default function SearchInterface({ onSearchComplete }: SearchInterfacePro
         setStats({ totalDocuments: 0, totalChunks: 0, avgChunkSize: 0 })
         setQuery('')
         setError(null)
+        setAiAnswer(null)
+        setExpandedResults(new Set())
         
         // Reload stats to confirm
         await loadStats()
@@ -117,6 +138,8 @@ export default function SearchInterface({ onSearchComplete }: SearchInterfacePro
     setSearching(true)
     setError(null)
     setShowSuggestions(false)
+    setAiAnswer(null)
+    setExpandedResults(new Set())
 
     try {
       const response = await fetch('/api/search', {
@@ -141,6 +164,18 @@ export default function SearchInterface({ onSearchComplete }: SearchInterfacePro
       }
 
       setResults(data.results || [])
+      
+      // Set AI answer if available
+      if (data.answer) {
+        console.log('AI answer:', data.answer);
+        setAiAnswer({
+          answer: data.answer,
+          sources: data.sources || [],
+          confidence: data.confidence || 0
+        })
+      } else {
+        setAiAnswer(null)
+      }
       
       // Update search history
       const historyResponse = await fetch('/api/history')
@@ -280,6 +315,52 @@ export default function SearchInterface({ onSearchComplete }: SearchInterfacePro
         </div>
       )}
 
+      {/* AI Answer Section */}
+      {aiAnswer && (
+        <div className="mb-6 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+              <span className="text-blue-600 font-semibold text-sm">AI</span>
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900">AI Answer</h3>
+            <div className="ml-auto flex items-center gap-2">
+              <span className="text-sm text-gray-500">
+                Confidence: {Math.round(aiAnswer.confidence * 100)}%
+              </span>
+              <div className={`w-3 h-3 rounded-full ${
+                aiAnswer.confidence > 0.7 ? 'bg-green-500' : 
+                aiAnswer.confidence > 0.4 ? 'bg-yellow-500' : 'bg-red-500'
+              }`}></div>
+            </div>
+          </div>
+          
+          <div className="prose prose-sm max-w-none">
+            <div 
+              className="text-gray-700 leading-relaxed whitespace-pre-wrap"
+              dangerouslySetInnerHTML={{ 
+                __html: aiAnswer.answer.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/## (.*?)(<br\/>|$)/g, '<h2 class="text-lg font-semibold mt-4 mb-2">$1</h2>')
+              }}
+            />
+          </div>
+          
+          {aiAnswer.sources.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-blue-200">
+              <h4 className="text-sm font-medium text-gray-700 mb-2">Sources:</h4>
+              <div className="flex flex-wrap gap-2">
+                {aiAnswer.sources.map((source, index) => (
+                  <span 
+                    key={index}
+                    className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                  >
+                    {source}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {results.length > 0 && (
         <div className="space-y-4">
           <h3 className="text-lg font-medium text-gray-900">
@@ -364,6 +445,67 @@ export default function SearchInterface({ onSearchComplete }: SearchInterfacePro
                       {result.metadata.financials.amounts.length > 2 && ` +${result.metadata.financials.amounts.length - 2} more`}
                     </span>
                   </div>
+                )}
+
+                {/* Financial Metrics */}
+                {result.metadata.financials && (
+                  <>
+                    {result.metadata.financials.revenue && (
+                      <div className="flex items-center gap-1">
+                        <TrendingUp className="w-4 h-4 text-gray-400" />
+                        <span className="text-gray-600">
+                          <strong>Revenue:</strong> {result.metadata.financials.revenue}{result.metadata.financials.currency || ''}
+                        </span>
+                      </div>
+                    )}
+                    {result.metadata.financials.profit && (
+                      <div className="flex items-center gap-1">
+                        <TrendingUp className="w-4 h-4 text-gray-400" />
+                        <span className="text-gray-600">
+                          <strong>Profit:</strong> {result.metadata.financials.profit}{result.metadata.financials.currency || ''}
+                        </span>
+                      </div>
+                    )}
+                    {result.metadata.financials.mrr && (
+                      <div className="flex items-center gap-1">
+                        <TrendingUp className="w-4 h-4 text-gray-400" />
+                        <span className="text-gray-600">
+                          <strong>MRR:</strong> {result.metadata.financials.mrr}{result.metadata.financials.currency || ''}
+                        </span>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* Contract Amendment Info */}
+                {result.metadata.contractAmendment && (
+                  <>
+                    {result.metadata.contractAmendment.effectiveDate && (
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-4 h-4 text-gray-400" />
+                        <span className="text-gray-600">
+                          <strong>Effective:</strong> {result.metadata.contractAmendment.effectiveDate}
+                        </span>
+                      </div>
+                    )}
+                    {result.metadata.contractAmendment.financialChanges?.amount && (
+                      <div className="flex items-center gap-1">
+                        <DollarSign className="w-4 h-4 text-gray-400" />
+                        <span className="text-gray-600">
+                          <strong>Change:</strong> {result.metadata.contractAmendment.financialChanges.amount}{result.metadata.contractAmendment.financialChanges.currency || ''} ({result.metadata.contractAmendment.financialChanges.changeType || 'modification'})
+                        </span>
+                      </div>
+                    )}
+                    {result.metadata.contractAmendment.scopeChanges && result.metadata.contractAmendment.scopeChanges.length > 0 && (
+                      <div className="flex items-center gap-1">
+                        <FileText className="w-4 h-4 text-gray-400" />
+                        <span className="text-gray-600">
+                          <strong>Scope:</strong> {result.metadata.contractAmendment.scopeChanges.slice(0, 1).join(', ')}
+                          {result.metadata.contractAmendment.scopeChanges.length > 1 && ` +${result.metadata.contractAmendment.scopeChanges.length - 1} more`}
+                        </span>
+                      </div>
+                    )}
+                  </>
                 )}
 
                 {result.metadata.date && (

@@ -9,6 +9,18 @@ interface VectorDocument {
   embedding: number[];
   norm?: number; // Precomputed L2 norm for efficiency
   timestamp?: number; // Document upload timestamp
+  // Structured metadata for hybrid filtering
+  structuredMetadata?: {
+    documentType?: string;
+    keywords?: string[];
+    date?: string;
+    people?: string[];
+    organizations?: string[];
+    financials?: {
+      amounts?: number[];
+      currency?: string;
+    };
+  };
 }
 
 interface VectorSearchResult {
@@ -23,10 +35,14 @@ class VectorDocumentStore {
   private documents: VectorDocument[] = [];
   private storagePath: string;
   private embeddings: OpenAIEmbeddings;
-  private dimension: number = 1536; // OpenAI text-embedding-3-small dimension
+  private dimension: number = 3072; // OpenAI text-embedding-3-large dimension
   private queryCache: Map<
     string,
     { results: VectorSearchResult[]; timestamp: number }
+  > = new Map();
+  private embeddingCache: Map<
+    string,
+    { embedding: number[]; timestamp: number }
   > = new Map();
   private cacheTimeout: number = 5 * 60 * 1000; // 5 minutes
 
@@ -34,7 +50,7 @@ class VectorDocumentStore {
     this.storagePath = path.join(process.cwd(), "vector-storage.json");
 
     this.embeddings = new OpenAIEmbeddings({
-      modelName: "text-embedding-3-small",
+      modelName: "text-embedding-3-large",
       openAIApiKey: apiKey,
     });
 
@@ -108,6 +124,41 @@ class VectorDocumentStore {
     return Date.now() - timestamp < this.cacheTimeout;
   }
 
+  // Get cached embedding or generate new one
+  private async getCachedEmbedding(query: string): Promise<number[]> {
+    const cached = this.embeddingCache.get(query);
+    if (cached && this.isCacheValid(cached.timestamp)) {
+      console.log(`Using cached embedding for query: "${query}"`);
+      return cached.embedding;
+    }
+
+    console.log(`Generating new embedding for query: "${query}"`);
+    const embedding = await this.embeddings.embedQuery(query);
+
+    // Cache the embedding
+    this.embeddingCache.set(query, {
+      embedding,
+      timestamp: Date.now(),
+    });
+
+    // Clean old embedding cache entries periodically
+    if (this.embeddingCache.size > 50) {
+      this.cleanEmbeddingCache();
+    }
+
+    return embedding;
+  }
+
+  // Clean expired embedding cache entries
+  private cleanEmbeddingCache() {
+    const now = Date.now();
+    for (const [key, value] of this.embeddingCache.entries()) {
+      if (!this.isCacheValid(value.timestamp)) {
+        this.embeddingCache.delete(key);
+      }
+    }
+  }
+
   async add(chunks: Array<{ id: string; text: string; metadata: any }>) {
     console.log(`Generating embeddings for ${chunks.length} chunks...`);
 
@@ -115,10 +166,12 @@ class VectorDocumentStore {
     const texts = chunks.map((chunk) => chunk.text);
     const embeddings = await this.embeddings.embedDocuments(texts);
 
-    // Create vector documents with precomputed norms and timestamp
+    // Create vector documents with precomputed norms, timestamp, and structured metadata
     const currentTimestamp = Date.now();
     const vectorDocs: VectorDocument[] = chunks.map((chunk, index) => {
       const embedding = embeddings[index];
+      const metadata = chunk.metadata || {};
+
       return {
         id: chunk.id,
         text: chunk.text,
@@ -126,6 +179,19 @@ class VectorDocumentStore {
         embedding,
         norm: this.calculateNorm(embedding), // Precompute norm for efficiency
         timestamp: currentTimestamp, // Add upload timestamp
+        structuredMetadata: {
+          documentType: metadata.documentType,
+          keywords: metadata.keywords || [],
+          date: metadata.date,
+          people: metadata.people || [],
+          organizations: metadata.organizations || [],
+          financials: metadata.financials
+            ? {
+                amounts: metadata.financials.amounts || [],
+                currency: metadata.financials.currency,
+              }
+            : undefined,
+        },
       };
     });
 
@@ -139,15 +205,25 @@ class VectorDocumentStore {
   async search(
     query: string,
     limit: number = 10,
-    minSimilarity: number = 0.15
+    minSimilarity?: number,
+    metadataFilter?: {
+      documentType?: string[];
+      keywords?: string[];
+      dateRange?: { start?: string; end?: string };
+    }
   ): Promise<VectorSearchResult[]> {
+    // Dynamically adjust minSimilarity based on query length
+    const adjustedMinSimilarity =
+      minSimilarity || this.calculateDynamicSimilarity(query);
     if (this.documents.length === 0) {
       console.log("No documents in vector store");
       return [];
     }
 
-    // Check cache first (include minSimilarity in cache key)
-    const cacheKey = `${query}_${limit}_${minSimilarity}`;
+    // Check cache first (include minSimilarity and metadata filter in cache key)
+    const cacheKey = `${query}_${limit}_${adjustedMinSimilarity}_${JSON.stringify(
+      metadataFilter || {}
+    )}`;
     const cached = this.queryCache.get(cacheKey);
     if (cached && this.isCacheValid(cached.timestamp)) {
       console.log(`Returning cached results for: "${query}"`);
@@ -155,18 +231,26 @@ class VectorDocumentStore {
     }
 
     console.log(
-      `Vector searching for: "${query}" in ${this.documents.length} documents (minSimilarity: ${minSimilarity})`
+      `Vector searching for: "${query}" in ${this.documents.length} documents (minSimilarity: ${adjustedMinSimilarity})`
     );
 
     try {
-      // Generate embedding for the query
-      const queryEmbedding = await this.embeddings.embedQuery(query);
+      // Generate or retrieve cached embedding for the query
+      const queryEmbedding = await this.getCachedEmbedding(query);
       const queryNorm = this.calculateNorm(queryEmbedding);
 
       // Use a priority queue approach for better efficiency
       const results: VectorSearchResult[] = [];
 
       for (const doc of this.documents) {
+        // Apply metadata filtering first using hybrid approach
+        if (
+          metadataFilter &&
+          !this.matchesMetadataFilter(doc, metadataFilter)
+        ) {
+          continue;
+        }
+
         const vectorSimilarity = this.cosineSimilarity(
           queryEmbedding,
           doc.embedding,
@@ -177,13 +261,13 @@ class VectorDocumentStore {
         // Calculate exact phrase match boost
         const exactMatchBoost = this.calculateExactMatchBoost(query, doc.text);
 
-        // Combine vector similarity with exact match boost
+        // Use weighted similarity: 0.9 * vectorSimilarity + 0.1 * exactMatchBoost
         const finalSimilarity = Math.min(
           1.0,
-          vectorSimilarity + exactMatchBoost
+          0.9 * vectorSimilarity + 0.1 * exactMatchBoost
         );
 
-        if (finalSimilarity > minSimilarity) {
+        if (finalSimilarity > adjustedMinSimilarity) {
           // Extract only the relevant section instead of the whole document
           const relevantSection = this.extractRelevantSection(query, doc.text);
 
@@ -227,7 +311,7 @@ class VectorDocumentStore {
       }
 
       console.log(
-        `Vector search returned ${deduplicatedResults.length} results (filtered by minSimilarity: ${minSimilarity}, deduplicated by document)`
+        `Vector search returned ${deduplicatedResults.length} results (filtered by minSimilarity: ${adjustedMinSimilarity}, deduplicated by document)`
       );
       if (deduplicatedResults.length > 0) {
         console.log(
@@ -252,7 +336,7 @@ class VectorDocumentStore {
       // Count occurrences and calculate boost
       const occurrences = (textLower.match(new RegExp(queryLower, "g")) || [])
         .length;
-      return Math.min(0.5, occurrences * 0.2); // Max 0.5 boost
+      return Math.min(1.0, occurrences * 0.3); // Max 1.0 boost for exact matches
     }
 
     // Check for individual word matches
@@ -271,7 +355,7 @@ class VectorDocumentStore {
     // Boost based on word match ratio
     if (queryWords.length > 0) {
       const matchRatio = wordMatches / queryWords.length;
-      return matchRatio * 0.2; // Max 0.2 boost for word matches
+      return matchRatio * 0.5; // Max 0.5 boost for word matches
     }
 
     return 0;
@@ -346,6 +430,99 @@ class VectorDocumentStore {
 
     // Fallback: return the original text if no specific section found
     return text;
+  }
+
+  // Calculate dynamic similarity threshold based on query length
+  private calculateDynamicSimilarity(query: string): number {
+    const queryLength = query.trim().split(/\s+/).length;
+
+    // Shorter queries need higher similarity (more specific)
+    // Longer queries can have lower similarity (more general)
+    if (queryLength <= 2) {
+      return 0.6; // Very specific for short queries
+    } else if (queryLength <= 4) {
+      return 0.4; // Specific for medium queries
+    } else if (queryLength <= 8) {
+      return 0.3; // Moderate for longer queries
+    } else {
+      return 0.2; // More lenient for very long queries
+    }
+  }
+
+  // Check if document metadata matches the filter criteria using hybrid filtering
+  private matchesMetadataFilter(
+    doc: VectorDocument,
+    filter: {
+      documentType?: string[];
+      keywords?: string[];
+      dateRange?: { start?: string; end?: string };
+    }
+  ): boolean {
+    // Use structured metadata if available, fallback to regular metadata
+    const structuredMeta = doc.structuredMetadata;
+    const metadata = doc.metadata;
+
+    // Check document type filter
+    if (filter.documentType && filter.documentType.length > 0) {
+      const docType = (
+        structuredMeta?.documentType || metadata?.documentType
+      )?.toLowerCase();
+      if (
+        !docType ||
+        !filter.documentType.some(
+          (type) =>
+            type.toLowerCase() === docType ||
+            docType.includes(type.toLowerCase())
+        )
+      ) {
+        return false;
+      }
+    }
+
+    // Check keywords filter with hybrid approach
+    if (filter.keywords && filter.keywords.length > 0) {
+      const docKeywords = structuredMeta?.keywords || metadata?.keywords || [];
+      const docText = metadata?.summary || "";
+      const docTextLower = docText.toLowerCase();
+
+      // Check if any filter keyword matches document keywords or appears in text
+      const hasKeywordMatch = filter.keywords.some((keyword) => {
+        const keywordLower = keyword.toLowerCase();
+        return (
+          docKeywords.some((docKeyword: string) =>
+            docKeyword.toLowerCase().includes(keywordLower)
+          ) || docTextLower.includes(keywordLower)
+        );
+      });
+
+      if (!hasKeywordMatch) {
+        return false;
+      }
+    }
+
+    // Check date range filter
+    if (filter.dateRange) {
+      const docDate = structuredMeta?.date || metadata?.date;
+      if (docDate) {
+        const docDateObj = new Date(docDate);
+
+        if (filter.dateRange.start) {
+          const startDate = new Date(filter.dateRange.start);
+          if (docDateObj < startDate) {
+            return false;
+          }
+        }
+
+        if (filter.dateRange.end) {
+          const endDate = new Date(filter.dateRange.end);
+          if (docDateObj > endDate) {
+            return false;
+          }
+        }
+      }
+    }
+
+    return true;
   }
 
   // Deduplicate results by document - keep only the top chunk per document

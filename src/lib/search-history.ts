@@ -17,7 +17,7 @@ class SearchHistoryDB {
   private initialized: Promise<void>;
 
   constructor() {
-    const dbPath = path.join(process.cwd(), "prisma", "search-history.db");
+    const dbPath = path.join(process.cwd(), "sqlite", "search-history.db");
     this.db = new sqlite3.Database(dbPath);
 
     // Promisify database methods

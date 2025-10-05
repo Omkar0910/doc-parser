@@ -26,18 +26,19 @@ export const extractStructuredInfo = async (
   text: string,
   filename: string
 ): Promise<DocumentMetadata> => {
+  // Limit to 4000 tokens to avoid token limits
   const prompt = `
 Extract structured information from the following document text. Return ONLY valid JSON with the exact structure specified below.
 
 Document filename: ${filename}
 
 Document text:
-${text.substring(0, 4000)} // Limit to avoid token limits
+${text.substring(0, 4000)}
 
 Extract and return JSON with this exact structure:
 {
   "filename": "${filename}",
-  "documentType": "invoice|email|report|contract|legal|medical|financial|technical|academic|government|personal|other",
+  "documentType": "invoice|email|report|contract|contract_amendment|financial|legal|medical|technical|academic|government|personal|other",
   "date": "YYYY-MM-DD format or null",
   "identifiers": ["array of IDs, numbers, reference codes, PO numbers, tracking numbers, case numbers, account numbers"],
   "people": ["array of person names, job titles, signatories, authors, recipients, witnesses"],
@@ -46,7 +47,24 @@ Extract and return JSON with this exact structure:
   "contacts": ["array of emails, phone numbers, URLs, fax numbers, social media handles"],
   "financials": {
     "amounts": [array of monetary amounts as numbers],
-    "currency": "currency code like USD, EUR, etc. or null"
+    "currency": "currency code like USD, EUR, etc. or null",
+    "revenue": "total revenue amount as number or null",
+    "profit": "profit/loss amount as number or null",
+    "cash": "cash/cash equivalent amount as number or null",
+    "mrr": "Monthly Recurring Revenue as number or null",
+    "cac": "Customer Acquisition Cost as number or null",
+    "ltv": "Customer Lifetime Value as number or null"
+  },
+  "contractAmendment": {
+    "identifiers": ["array of amendment IDs, contract numbers, reference codes"],
+    "effectiveDate": "YYYY-MM-DD format or null",
+    "milestoneDates": ["array of milestone dates in YYYY-MM-DD format"],
+    "financialChanges": {
+      "amount": "financial change amount as number or null",
+      "currency": "currency code or null",
+      "changeType": "increase|decrease|modification|null"
+    },
+    "scopeChanges": ["array of scope modifications, additions, deletions"]
   },
   "keywords": ["array of subjects, project names, tags, topics, categories, themes"],
   "summary": "2-3 sentence summary of the document"
@@ -67,6 +85,13 @@ Rules:
 - For locations, include all geographical references
 - For contacts, include all communication methods mentioned
 - For keywords, extract main topics, subjects, and themes
+- For contract amendments: identify amendment-specific information, effective dates, milestone dates, financial changes, and scope modifications
+- For financial reports: extract specific financial metrics like revenue, profit, cash, MRR, CAC, LTV
+- Document type "contract_amendment" for contract modifications, amendments, addendums
+- Document type "financial" for financial reports, statements, budgets, forecasts
+- Capture people, organizations, contacts, locations, keywords fully
+- Return only JSON, use null for missing values
+- Include document type (financial, contract_amendment, email, etc.)
 `;
 
   try {
@@ -95,7 +120,35 @@ Rules:
       financials: {
         amounts: metadata.financials?.amounts || [],
         currency: metadata.financials?.currency || undefined,
+        revenue: metadata.financials?.revenue || undefined,
+        profit: metadata.financials?.profit || undefined,
+        cash: metadata.financials?.cash || undefined,
+        mrr: metadata.financials?.mrr || undefined,
+        cac: metadata.financials?.cac || undefined,
+        ltv: metadata.financials?.ltv || undefined,
       },
+      contractAmendment: metadata.contractAmendment
+        ? {
+            identifiers: metadata.contractAmendment.identifiers || [],
+            effectiveDate:
+              metadata.contractAmendment.effectiveDate || undefined,
+            milestoneDates: metadata.contractAmendment.milestoneDates || [],
+            financialChanges: metadata.contractAmendment.financialChanges
+              ? {
+                  amount:
+                    metadata.contractAmendment.financialChanges.amount ||
+                    undefined,
+                  currency:
+                    metadata.contractAmendment.financialChanges.currency ||
+                    undefined,
+                  changeType:
+                    metadata.contractAmendment.financialChanges.changeType ||
+                    undefined,
+                }
+              : undefined,
+            scopeChanges: metadata.contractAmendment.scopeChanges || [],
+          }
+        : undefined,
       keywords: metadata.keywords || [],
       summary: metadata.summary || "No summary available",
     };
@@ -121,7 +174,14 @@ Rules:
       financials: {
         amounts: [],
         currency: undefined,
+        revenue: undefined,
+        profit: undefined,
+        cash: undefined,
+        mrr: undefined,
+        cac: undefined,
+        ltv: undefined,
       },
+      contractAmendment: undefined,
       keywords: [],
       summary: "Failed to extract structured information",
     };
@@ -145,7 +205,14 @@ const createFallbackMetadata = (
     financials: {
       amounts: [],
       currency: undefined,
+      revenue: undefined,
+      profit: undefined,
+      cash: undefined,
+      mrr: undefined,
+      cac: undefined,
+      ltv: undefined,
     },
+    contractAmendment: undefined,
     keywords: [],
     summary: "Document processed without AI extraction (API quota exceeded)",
   };
@@ -179,16 +246,25 @@ const createFallbackMetadata = (
   }
 
   // Basic document type detection
-  if (text.toLowerCase().includes("invoice")) {
+  const textLower = text.toLowerCase();
+  if (textLower.includes("invoice")) {
     metadata.documentType = "invoice";
-  } else if (text.toLowerCase().includes("contract")) {
-    metadata.documentType = "contract";
-  } else if (text.toLowerCase().includes("report")) {
-    metadata.documentType = "report";
   } else if (
-    text.toLowerCase().includes("@") &&
-    text.toLowerCase().includes("subject:")
+    textLower.includes("amendment") &&
+    textLower.includes("contract")
   ) {
+    metadata.documentType = "contract_amendment";
+  } else if (textLower.includes("contract")) {
+    metadata.documentType = "contract";
+  } else if (
+    textLower.includes("financial") ||
+    textLower.includes("revenue") ||
+    textLower.includes("profit")
+  ) {
+    metadata.documentType = "financial";
+  } else if (textLower.includes("report")) {
+    metadata.documentType = "report";
+  } else if (textLower.includes("@") && textLower.includes("subject:")) {
     metadata.documentType = "email";
   }
 
@@ -226,59 +302,102 @@ export const generateAnswerFromDocuments = async (
     };
   }
 
-  // Prepare context from filtered results
-  const contextChunks = filteredResults
-    .slice(0, 5) // Use top 5 results
+  // Select top distinct chunks avoiding repeated content
+  const distinctChunks = selectDistinctChunks(filteredResults, 5);
+
+  // Prepare context with enhanced metadata
+  const contextChunks = distinctChunks
     .map((result, index) => {
-      const source = result.metadata?.filename || `Document ${index + 1}`;
+      const metadata = result.metadata || {};
+      const source = metadata.filename || `Document ${index + 1}`;
+      const docType = metadata.documentType || "unknown";
+      const date = metadata.date || "no date";
+      const keywords =
+        metadata.keywords?.slice(0, 3).join(", ") || "no keywords";
       const similarity = result.similarity || 0;
-      return `[Source: ${source} | Relevance: ${(similarity * 100).toFixed(
-        1
-      )}%]\n${result.text}\n`;
+
+      return `[Source: ${source} | Type: ${docType} | Date: ${date} | Keywords: ${keywords} | Relevance: ${(
+        similarity * 100
+      ).toFixed(1)}%]\n${result.text}\n`;
     })
     .join("\n---\n");
 
-  // Truncate context if too long
-  const truncatedContext =
-    contextChunks.length > maxContextLength
-      ? contextChunks.substring(0, maxContextLength) + "..."
-      : contextChunks;
+  // Truncate context sensibly to maxContextLength
+  const truncatedContext = truncateContextSensibly(
+    contextChunks,
+    maxContextLength
+  );
 
-  const sources = filteredResults
-    .slice(0, 5)
-    .map((result) => result.metadata?.filename || "Unknown document");
+  const sources = distinctChunks.map(
+    (result) => result.metadata?.filename || "Unknown document"
+  );
 
-  // Enhanced prompt with better instructions
+  // Enhanced prompt with detailed formatting instructions
   const prompt = `
-You are an AI assistant that answers questions based on the content of uploaded documents. Use ONLY the information provided in the context below to answer the user's question.
+You are a professional AI assistant that provides detailed, well-formatted answers based on document content. Analyze the provided context thoroughly and generate a comprehensive, formal response.
 
 User Question: ${query}
 
 Context from uploaded documents:
 ${truncatedContext}
 
-Instructions:
-1. Answer the question based ONLY on the information provided in the context above
-2. If the answer is not found in the context, say "I couldn't find specific information about this in the uploaded documents"
-3. Be concise but comprehensive - provide a clear, well-structured answer
-4. Include specific details, numbers, dates, names, or other relevant information from the documents
-5. If you reference information, mention which document it came from
-6. If the question asks for information that spans multiple documents, synthesize the information clearly
-7. For financial questions, provide specific amounts and details
-8. For contact information, provide complete details
-9. For business information, provide specific facts and figures
-10. If the query asks for a summary or overview, provide a structured summary
-11. If the query asks for specific data points, extract and present them clearly
-12. Use the relevance scores to prioritize information from more relevant sources
-13. If there are conflicting information across documents, mention this and provide both perspectives
-14. Format your answer for readability with proper structure and formatting
+ANALYSIS AND FORMATTING REQUIREMENTS:
 
-Answer:`;
+1. CONTENT ANALYSIS:
+   - Thoroughly analyze the provided context
+   - Identify all relevant information related to the question
+   - Cross-reference information across multiple sources when available
+   - Note any conflicting information or gaps in the data
+
+2. RESPONSE STRUCTURE:
+   - Provide a clear, formal introduction that directly addresses the question
+   - Organize information logically with proper headings and subheadings
+   - Use bullet points, numbered lists, or tables when appropriate
+   - Include a conclusion that summarizes key findings
+
+3. DETAILED CONTENT REQUIREMENTS:
+   - Provide comprehensive details, not just brief summaries
+   - Include specific numbers, dates, names, amounts, and technical details
+   - Explain context and background information when relevant
+   - Synthesize information from multiple sources into coherent insights
+   - Highlight important patterns, trends, or relationships in the data
+
+4. SOURCE ATTRIBUTION:
+   - Always cite sources using the format: "According to [Source: filename]..."
+   - When synthesizing information from multiple sources, mention all relevant sources
+   - Use phrases like "Based on the contract details..." or "The financial report indicates..."
+   - Distinguish between different document types (contracts, emails, reports, etc.)
+
+5. FORMATTING GUIDELINES:
+   - Use proper business/professional language
+   - Structure information hierarchically (main points → sub-points → details)
+   - Use formatting like **bold** for emphasis on key terms
+   - Include relevant quotes when they add value
+   - Present financial data in clear, organized formats
+   - Use consistent terminology throughout
+
+6. QUALITY STANDARDS:
+   - Provide actionable insights, not just raw data
+   - Explain the significance of findings
+   - Address potential implications or next steps when relevant
+   - Ensure the answer is complete and addresses all aspects of the question
+   - Use professional tone appropriate for business/legal documents
+
+7. ERROR HANDLING:
+   - If information is incomplete, clearly state what is missing
+   - If there are contradictions, present both perspectives with analysis
+   - If the question cannot be fully answered, explain what information is available
+   - Never fabricate or assume information not present in the context
+
+Generate a detailed, professional response that thoroughly addresses the user's question:`;
 
   try {
     const llm = await getOpenAIKey();
     const response = await llm.invoke(prompt);
-    const answer = response.content as string;
+    let answer = response.content as string;
+
+    // Post-process the answer to ensure it's detailed and well-formatted
+    answer = postProcessAnswer(answer, query, distinctChunks);
 
     // Calculate confidence based on multiple factors
     const confidence = calculateAnswerConfidence(
@@ -295,7 +414,7 @@ Answer:`;
   } catch (error) {
     console.error("Error generating AI answer:", error);
 
-    // Fallback to simple text-based answer
+    // Fallback to enhanced text-based answer
     const fallbackAnswer = generateFallbackAnswer(query, searchResults);
 
     return {
@@ -400,7 +519,7 @@ function calculateAnswerConfidence(
   return Math.min(0.95, Math.max(0.1, confidence));
 }
 
-// Fallback answer generation when AI is not available
+// Enhanced fallback answer generation when AI is not available
 const generateFallbackAnswer = (
   query: string,
   searchResults: any[]
@@ -420,9 +539,16 @@ const generateFallbackAnswer = (
         .match(/\$[\d,]+\.?\d*/g) || [];
 
     if (financialInfo.length > 0) {
-      return `Based on the documents, I found these financial figures: ${financialInfo.join(
-        ", "
-      )}. Please review the specific documents for complete financial details.`;
+      return `Based on the documents, I found the following financial information:
+
+**Financial Figures Found:**
+${financialInfo.map((amount, index) => `${index + 1}. ${amount}`).join("\n")}
+
+**Source Documents:** ${searchResults
+        .map((r) => r.metadata?.filename || "Unknown")
+        .join(", ")}
+
+Please review the specific documents for complete financial details and context.`;
     }
   }
 
@@ -440,17 +566,153 @@ const generateFallbackAnswer = (
         ) || [];
 
     if (contactInfo.length > 0) {
-      return `Contact information found: ${contactInfo.join(
-        ", "
-      )}. Please check the documents for complete contact details.`;
+      return `Based on the documents, I found the following contact information:
+
+**Contact Details Found:**
+${contactInfo.map((contact, index) => `${index + 1}. ${contact}`).join("\n")}
+
+**Source Documents:** ${searchResults
+        .map((r) => r.metadata?.filename || "Unknown")
+        .join(", ")}
+
+Please check the documents for complete contact details and context.`;
     }
   }
 
-  // Generic fallback
+  // Enhanced generic fallback with better formatting
   const relevantText = searchResults
-    .slice(0, 2)
-    .map((result) => result.text.substring(0, 200))
-    .join("... ");
+    .slice(0, 3)
+    .map((result, index) => {
+      const source = result.metadata?.filename || `Document ${index + 1}`;
+      const text = result.text.substring(0, 300);
+      return `**Source: ${source}**\n${text}...`;
+    })
+    .join("\n\n");
 
-  return `I found relevant information in the uploaded documents: ${relevantText}... Please review the full documents for complete details.`;
+  return `Based on the uploaded documents, I found relevant information related to your query:
+
+${relevantText}
+
+**Summary:** The documents contain information that may be relevant to your question. Please review the full documents for complete details and context.
+
+**Source Documents:** ${searchResults
+    .map((r) => r.metadata?.filename || "Unknown")
+    .join(", ")}`;
 };
+
+// Select distinct chunks avoiding repeated content
+function selectDistinctChunks(searchResults: any[], maxChunks: number): any[] {
+  const selectedChunks: any[] = [];
+  const seenContent = new Set<string>();
+  const seenDocuments = new Set<string>();
+
+  for (const result of searchResults) {
+    if (selectedChunks.length >= maxChunks) break;
+
+    const filename = result.metadata?.filename || "unknown";
+    const text = result.text || "";
+
+    // Create a content signature for deduplication
+    const contentSignature = text
+      .toLowerCase()
+      .substring(0, 200)
+      .replace(/\s+/g, " ");
+
+    // Skip if we've seen this content before or if it's from the same document
+    if (seenContent.has(contentSignature) || seenDocuments.has(filename)) {
+      continue;
+    }
+
+    // Add to selected chunks
+    selectedChunks.push(result);
+    seenContent.add(contentSignature);
+    seenDocuments.add(filename);
+  }
+
+  return selectedChunks;
+}
+
+// Truncate context sensibly to maxContextLength
+function truncateContextSensibly(context: string, maxLength: number): string {
+  if (context.length <= maxLength) {
+    return context;
+  }
+
+  // Try to truncate at document boundaries first
+  const documentSeparator = "\n---\n";
+  const documents = context.split(documentSeparator);
+
+  let truncatedContext = "";
+  let currentLength = 0;
+
+  for (const doc of documents) {
+    const docWithSeparator = truncatedContext ? documentSeparator + doc : doc;
+
+    if (currentLength + docWithSeparator.length <= maxLength) {
+      truncatedContext += docWithSeparator;
+      currentLength += docWithSeparator.length;
+    } else {
+      // Try to include partial document if there's space
+      const remainingSpace = maxLength - currentLength;
+      if (remainingSpace > 100) {
+        // Only if there's meaningful space left
+        truncatedContext +=
+          documentSeparator +
+          doc.substring(0, remainingSpace - documentSeparator.length) +
+          "...";
+      }
+      break;
+    }
+  }
+
+  return truncatedContext;
+}
+
+// Post-process answer to ensure it's detailed and well-formatted
+function postProcessAnswer(
+  answer: string,
+  query: string,
+  chunks: any[]
+): string {
+  // Ensure the answer has proper structure
+  if (
+    !answer.includes("**") &&
+    !answer.includes("##") &&
+    !answer.includes("#")
+  ) {
+    // Add basic formatting if none exists
+    const lines = answer.split("\n").filter((line) => line.trim().length > 0);
+    if (lines.length > 1) {
+      answer = `## Answer\n\n${lines.join("\n\n")}`;
+    }
+  }
+
+  // Ensure source attribution is present
+  const hasSourceAttribution =
+    answer.toLowerCase().includes("source:") ||
+    answer.toLowerCase().includes("according to") ||
+    answer.toLowerCase().includes("based on");
+
+  if (!hasSourceAttribution && chunks.length > 0) {
+    const sources = chunks
+      .map((chunk) => chunk.metadata?.filename || "Unknown")
+      .join(", ");
+    answer += `\n\n**Sources:** ${sources}`;
+  }
+
+  // Ensure the answer addresses the query directly
+  const queryWords = query
+    .toLowerCase()
+    .split(/\s+/)
+    .filter((word) => word.length > 2);
+  const answerLower = answer.toLowerCase();
+  const queryCoverage =
+    queryWords.filter((word) => answerLower.includes(word)).length /
+    queryWords.length;
+
+  if (queryCoverage < 0.3) {
+    answer = `## Answer\n\n${answer}\n\n*Note: This response may not fully address all aspects of your question. Please review the source documents for additional details.*`;
+  }
+
+  return answer;
+}

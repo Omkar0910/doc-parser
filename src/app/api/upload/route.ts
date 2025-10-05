@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   parsePDF,
   parseEmail,
-  chunkText,
+  chunkTextSemantically,
   DocumentChunk,
 } from "@/lib/document-parser";
 import { extractStructuredInfo } from "@/lib/ai-extraction";
@@ -56,9 +56,9 @@ export async function POST(request: NextRequest) {
     console.log("Extracting structured information...");
     const metadata = await extractStructuredInfo(text, filename);
 
-    // Chunk the text with optimized parameters
-    console.log("Chunking text...");
-    const chunks = chunkText(text, 1200, 150); // Slightly larger chunks, less overlap for better topic coherence
+    // Use semantic chunking based on document type
+    console.log("Chunking text semantically...");
+    const chunks = chunkTextSemantically(text, filename, metadata.documentType);
 
     // Process each chunk
     const chunkIds: string[] = [];

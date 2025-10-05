@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
       limit = 10,
       generateAnswer = true,
       minSimilarity = 0.4,
+      metadataFilter,
     } = await request.json();
 
     if (!query || query.trim().length === 0) {
@@ -22,13 +23,21 @@ export async function POST(request: NextRequest) {
     console.log(
       `Query: "${query}", Limit: ${limit}, Generate Answer: ${generateAnswer}, MinSimilarity: ${minSimilarity}`
     );
+    if (metadataFilter) {
+      console.log("Metadata Filter:", JSON.stringify(metadataFilter));
+    }
 
     let searchResults: any[] = [];
 
     try {
-      // Try vector search first
+      // Try vector search first with enhanced features
       const vector = await vectorStore();
-      searchResults = await vector.search(query, limit, minSimilarity);
+      searchResults = await vector.search(
+        query,
+        limit,
+        minSimilarity,
+        metadataFilter
+      );
       console.log(`Vector search returned ${searchResults.length} results`);
 
       // If vector search returns no results, fallback to file-based search
